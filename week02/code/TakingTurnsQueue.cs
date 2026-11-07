@@ -5,39 +5,33 @@ namespace week02
 {
     public class TakingTurnsQueue
     {
-        private readonly List<Person> _queue = new();
+        private readonly Queue<Person> _queue = new Queue<Person>();
 
         public int Length => _queue.Count;
 
         public void AddPerson(string name, int turns)
         {
             var person = new Person(name, turns);
-            _queue.Add(person);
+            _queue.Enqueue(person);
         }
 
         public Person GetNextPerson()
         {
             if (_queue.Count == 0)
             {
-                throw new InvalidOperationException("No one in the queue.");
+                throw new InvalidOperationException("The queue is empty.");
             }
 
-            // Fix: Remove from front (index 0) to maintain true FIFO behavior
-            Person person = _queue[0];
-            _queue.RemoveAt(0);
+            Person person = _queue.Dequeue();
 
-            // Infinite turn check logic boundary (turns <= 0 means they stay forever)
-            if (person.Turns <= 0)
-            {
-                _queue.Add(person);
-            }
-            else
+            if (person.Turns > 1)
             {
                 person.Turns--;
-                if (person.Turns > 0)
-                {
-                    _queue.Add(person);
-                }
+                _queue.Enqueue(person);
+            }
+            else if (person.Turns <= 0)
+            {
+                _queue.Enqueue(person);
             }
 
             return person;

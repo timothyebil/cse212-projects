@@ -5,17 +5,17 @@ namespace week02
 {
     public class PriorityQueue
     {
-        private readonly List<Person> _queue = new();
+        private readonly List<Person> _queue = new List<Person>();
 
         public int Length => _queue.Count;
 
-        public void Enqueue(string name, int priority)
+        public void Enqueue(string value, int priority)
         {
-            var person = new Person(name, priority);
-            _queue.Add(person);
+            var item = new Person(value, priority);
+            _queue.Add(item);
         }
 
-        public Person Dequeue()
+        public string Dequeue()
         {
             if (_queue.Count == 0)
             {
@@ -23,25 +23,20 @@ namespace week02
             }
 
             int highPriorityIndex = 0;
-            
+
+            // Strict '>' comparison maintains correct FIFO stability
             for (int i = 1; i < _queue.Count; i++)
             {
-                // Fix: Strict inequality (>) preserves FIFO sequence order for matching priorities
-                if (_queue[i].Priority > _queue[highPriorityIndex].Priority)
+                if (_queue[i].Turns > _queue[highPriorityIndex].Turns)
                 {
                     highPriorityIndex = i;
                 }
             }
 
-            var person = _queue[highPriorityIndex];
+            string value = _queue[highPriorityIndex].Name;
             _queue.RemoveAt(highPriorityIndex);
-            
-            return person;
-        }
 
-        public override string ToString()
-        {
-            return $"[{string.Join(", ", _queue)}]";
+            return value;
         }
     }
 }
