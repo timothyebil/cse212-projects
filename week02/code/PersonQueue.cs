@@ -1,35 +1,43 @@
-/// <summary>
-/// A basic implementation of a Queue
-/// </summary>
-public class PersonQueue
+using System;
+using System.Collections.Generic;
+
+namespace week02
 {
-    private readonly List<Person> _queue = new();
-
-    public int Length => _queue.Count;
-
     /// <summary>
-    /// Add a person to the queue
+    /// A correct First-In, First-Out (FIFO) implementation of a Person Queue.
     /// </summary>
-    /// <param name="person">The person to add</param>
-    public void Enqueue(Person person)
+    public class PersonQueue
     {
-        _queue.Insert(0, person);
-    }
+        private readonly List<Person> _queue = new();
 
-    public Person Dequeue()
-    {
-        var person = _queue[0];
-        _queue.RemoveAt(0);
-        return person;
-    }
+        public int Length => _queue.Count;
 
-    public bool IsEmpty()
-    {
-        return Length == 0;
-    }
+        public void Enqueue(Person person)
+        {
+            // Fix: Add to the end of the list instead of inserting at index 0 (Stack behavior)
+            _queue.Add(person);
+        }
 
-    public override string ToString()
-    {
-        return $"[{string.Join(", ", _queue)}]";
+        public Person Dequeue()
+        {
+            if (IsEmpty())
+            {
+                throw new InvalidOperationException("Error: Cannot dequeue from an empty queue.");
+            }
+
+            var person = _queue[0];
+            _queue.RemoveAt(0);
+            return person;
+        }
+
+        public bool IsEmpty()
+        {
+            return Length == 0;
+        }
+
+        public override string ToString()
+        {
+            return $"[{string.Join(", ", _queue)}]";
+        }
     }
 }
