@@ -1,3 +1,12 @@
-﻿Console.WriteLine("\n======================\nCustomer Service\n======================");
-CustomerService.Run();
-// CustomerServiceSolution.Run();
+﻿using System;
+
+namespace teach
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            CustomerServiceSolution.RunSuite();
+        }
+    }
+}
